@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Alert v1</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 500px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 25px;
+            text-align: center;
+        }
+        .alert-box {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid;
+        }
+        .alert-safe {
+            background-color: #e7f3ff;
+            border-color: #4295ff;
+            color: #0b3c78;
+        }
+        .alert-warning {
+            background-color: #fffbe6;
+            border-color: #ffc107;
+            color: #664d03;
+        }
+        .checklist ul {
+            list-style-type: '✅  ';
+            padding-left: 20px;
+            margin: 0;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Early Warning System</h1>
+        <p id="location">Checking conditions for Shimla, India...</p>
+        <div id="alert-display" class="alert-box alert-safe">Loading...</div>
+        <div id="checklist-container" class="checklist"></div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const city = "Shimla";
+            const apiURL = `/api/weather?city=${city}`;
+            const emergencyChecklists = {
+                "Rain": {
+                    title: "Heavy Rain Checklist",
+                    tasks: ["Check for water-logging updates.", "Ensure phone is charged.", "Keep emergency lights ready."]
+                },
+                "Haze": {
+                    title: "Air Quality (Haze) Checklist",
+                    tasks: ["Stay indoors.", "Use an air purifier.", "Wear a mask if outside."]
+                },
+                "Thunderstorm": {
+                    title: "Thunderstorm Checklist",
+                    tasks: ["Stay indoors away from windows.", "Unplug electronics.", "Avoid using landline phones."]
+                }
+            };
+            const alertDisplay = document.getElementById('alert-display');
+            const checklistContainer = document.getElementById('checklist-container');
+            
+            async function getWeather() {
+                try {
+                    const response = await fetch(apiURL);
+                    if (!response.ok) throw new Error(`API Error: ${response.statusText}`);
+                    const data = await response.json();
+                    displayWeatherInfo(data);
+                } catch (error) {
+                    alertDisplay.textContent = `Error: Could not get weather. Is the API key correct?`;
+                    alertDisplay.className = 'alert-box alert-warning';
+                }
+            }
+
+            function displayWeatherInfo(data) {
+                const condition = data.weather[0].main;
+                const temp = data.main.temp;
+                if (emergencyChecklists[condition]) {
+                    const checklist = emergencyChecklists[condition];
+                    alertDisplay.textContent = `⚠️ WARNING: ${condition} (${temp}°C)`;
+                    alertDisplay.className = 'alert-box alert-warning';
+                    let checklistHTML = `<h3>${checklist.title}</h3><ul>`;
+                    checklist.tasks.forEach(task => { checklistHTML += `<li>${task}</li>`; });
+                    checklistHTML += `</ul>`;
+                    checklistContainer.innerHTML = checklistHTML;
+                } else {
+                    alertDisplay.textContent = `✅ All Clear: ${condition} (${temp}°C)`;
+                    alertDisplay.className = 'alert-box alert-safe';
+                    checklistContainer.innerHTML = "";
+                }
+            }
+            getWeather();
+        });
+    </script>
+</body>
+</html> 
