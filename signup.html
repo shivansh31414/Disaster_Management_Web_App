@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Emergency Alert System v3</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">🚨</span>
+                    <span class="logo-text">Emergency Alert</span>
+                </div>
+                <nav class="nav-menu">
+                    <a href="emergency_app.html" class="nav-item">Weather</a>
+                    <a href="signup.html" class="nav-item active">Sign Up</a>
+                    <a href="index.html" class="nav-item">Home</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h1>Create Account</h1>
+                    <p class="auth-subtitle">Join Emergency Alert System to get personalized weather alerts</p>
+                    
+                    <form id="signup-form" class="auth-form">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required placeholder="Enter your full name" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required placeholder="Enter your email address" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" required placeholder="Create a password (min 6 characters)" />
+                        </div>
+                        
+                        <button type="submit" class="auth-btn">Create Account</button>
+                    </form>
+                    
+                    <div class="auth-footer">
+                        <p>Already have an account? <a href="emergency_app.html">Sign in</a></p>
+                    </div>
+                    
+                    <div id="auth-message" class="auth-message"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="app-footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2024 Emergency Alert System v3. Stay Safe, Stay Prepared.</p>
+                <div class="footer-links">
+                    <span>Privacy</span>
+                    <span>Terms</span>
+                    <span>Contact</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="scripts/signup.js"></script>
+</body>
+</html>
